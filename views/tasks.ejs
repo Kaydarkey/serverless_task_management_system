@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Tasks</title>
+    <link rel="stylesheet" href="https://tmscssbucket.s3.eu-west-1.amazonaws.com/styles.css">
+</head>
+<body>
+    <header>
+        <h1>My Tasks</h1>
+    </header>
+    <main>
+        <table>
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Status</th>
+                    <th>Description</th>
+                    <th>Deadline</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% tasks.forEach(task => { %>
+                    <tr>
+                        <td><%= task.title %></td>
+                        <td>
+                            <% if (task.status === 'Completed') { %>
+                                <span class="status-completed">Completed</span>
+                            <% } else if (task.status === 'In Progress') { %>
+                                <span class="status-in-progress">In Progress</span>
+                            <% } else { %>
+                                <span class="status-pending">Pending</span>
+                            <% } %>
+                        </td>
+                        <td><%= task.description %></td>
+                        <td><%= task.deadline %></td>
+                        <td>
+                            <!-- Form to update task status -->
+                            <form action="/dev/member/tasks/<%= task.task_Id %>/update" method="POST">
+                                <!-- Status dropdown with conditional selected state -->
+                                <select name="status">
+                                    <!-- Default option is Pending -->
+                                    <option value="Pending" <%= task.status === 'Pending' ? 'selected' : '' %>>Pending</option>
+                                    <!-- In Progress option -->
+                                    <option value="In Progress" <%= task.status === 'In Progress' ? 'selected' : '' %>>In Progress</option>
+                                    <!-- Completed option -->
+                                    <option value="Completed" <%= task.status === 'Completed' ? 'selected' : '' %>>Completed</option>
+                                </select>
+                                <!-- Submit button to update status -->
+                                <button type="submit" class="btn">Update</button>
+                            </form>
+                        </td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+    </main>
+    <footer>
+        <p>&copy; 2024 Task Management System</p>
+    </footer>
+</body>
+</html>

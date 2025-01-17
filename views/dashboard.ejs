@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://tmscssbucket.s3.eu-west-1.amazonaws.com/styles.css">
+</head>
+<body>
+  <header>
+    <h1>Admin Dashboard</h1>
+    <nav>
+      <ul>
+        <li><a href="/dev/admin/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+        <h2>Task List</h2>
+        <button id="open-create-task-modal">Create New Task</button>
+        <table>
+          <thead>
+            <tr>
+              <th>Task Title</th>
+              <th>Description</th>
+              <th>Assigned To</th>
+              <th>Status</th>
+              <th>Deadline</th>
+              <th>Created At</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% tasks.forEach(function(task) { %>
+              <tr>
+                <td><%= task.title %></td>
+                <td><%= task.description %></td>
+                <td><%= task.assignedTo %></td>
+                <td><%= task.status %></td>
+                <td><%= task.deadline %></td>
+                <td><%= task.createdAt %></td>
+              </tr>
+            <% }); %>
+          </tbody>
+        </table>
+      </section>
+      
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Admin Dashboard</p>
+  </footer>
+
+  <!-- Modal -->
+  <div id="create-task-modal" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h2>Create New Task</h2>
+        <span class="close">&times;</span>
+      </div>
+      <div class="modal-body">
+        <form id="create-task-form" action="/dev/admin/tasks/create-task" method="POST">
+          <div>
+            <label for="title">Task Title</label>
+            <input type="text" id="title" name="title" required>
+          </div>
+          <div>
+            <label for="description">Description</label>
+            <textarea id="description" name="description" rows="4" required></textarea>
+          </div>
+          <div>
+            <label for="assignedTo">Assign To</label>
+            <select id="assignedTo" name="assignedTo" required>
+              <% members.forEach(function(member) { %>
+                <option value="<%= member.name %>"><%= member.name %></option>
+              <% }); %>
+            </select>
+          </div>
+          <div>
+            <label for="deadline">Deadline</label>
+            <input type="date" id="deadline" name="deadline" required>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" form="create-task-form">Create Task</button>
+        <button class="close">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Modal functionality
+    document.addEventListener("DOMContentLoaded", () => {
+      const createTaskModal = document.getElementById("create-task-modal");
+      const openModalButton = document.getElementById("open-create-task-modal");
+      const closeModalButtons = document.querySelectorAll(".close");
+
+      // Open modal
+      openModalButton.addEventListener("click", () => {
+        createTaskModal.style.display = "block";
+      });
+
+      // Close modal
+      closeModalButtons.forEach(button => {
+        button.addEventListener("click", () => {
+          createTaskModal.style.display = "none";
+        });
+      });
+
+      // Close modal on outside click
+      window.onclick = (event) => {
+        if (event.target === createTaskModal) {
+          createTaskModal.style.display = "none";
+        }
+      };
+    });
+  </script>
+</body>
+</html>

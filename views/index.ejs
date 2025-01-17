@@ -1,0 +1,48 @@
+<!-- views/index.ejs -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Management System</title>
+    <link rel="stylesheet" href="https://tmscssbucket.s3.eu-west-1.amazonaws.com/styles.css">
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>MyTaskManagementSystem</h1>
+    </header>
+    <main>
+        <% if (isAuthenticated) { %>
+            <div class="welcome">
+                <h2>Welcome, <%= userInfo.username || userInfo.email %>!</h2>
+                <p>Here are your account details:</p>
+                <pre><%= JSON.stringify(userInfo, null, 4) %></pre>
+            </div>
+
+            <div class="actions">
+                <h3>Your Dashboard</h3>
+                <ul>
+                    <% if (userInfo.role === 'member') { %>
+                        <li><a href="/dev/member/tasks" class="btn">View My Tasks</a></li>
+                    <% } %>
+                    <% if (userInfo.role === 'admin') { %>
+                        <li><a href="/dev/admin/dashboard" class="btn">Admin Dashboard</a></li>
+                    <% } %>
+                </ul>
+            </div>
+
+            <a href="/dev/logout" class="btn">Logout</a>
+        <% } else { %>
+            <div class="login-prompt">
+                <p>Please log in to manage your tasks.</p>
+                <a href="/dev/login" class="btn">Login</a>
+            </div>
+        <% } %>
+    </main>
+    <footer>
+        <p>&copy; 2024 MyTaskManagementSystem</p>
+    </footer>
+</div>
+</body>
+</html>
