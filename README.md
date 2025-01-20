@@ -40,6 +40,8 @@ o	Sends notifications for task updates and deadlines.
 o	Monitors application performance and logs errors.
 6.	AWS S3 (Optional)
 o	Stores static files or task-related documents.
+7. AWS Lambda
+Allows you to run code without provisioning or managing servers
 ________________________________________
 Installation and Setup
 Prerequisites
